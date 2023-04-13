@@ -1,0 +1,59 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="58472749-E39A-CE9B-BEC1-37979C48E0DF" name="ESTACIONAMIENTO">
+<createdBy>NextClick</createdBy>
+<createdTime>2023-04-13 22:43:01 UTC</createdTime>
+<ownerDesignName>diagrama_er</ownerDesignName>
+<engineerTo>
+<item key="E3FA50AD-68AD-FDCE-BD85-A3249704ECE4" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ESTA_CODIGO" id="AFAEED0F-4680-B6C3-F5F7-C0CE3252EFCE">
+<createdBy>NextClick</createdBy>
+<createdTime>2023-04-13 22:44:15 UTC</createdTime>
+<ownerDesignName>diagrama_er</ownerDesignName>
+<engineerTo>
+<item key="E3FA50AD-68AD-FDCE-BD85-A3249704ECE4" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>5</dataTypeSize>
+<ownDataTypeParameters>5,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ESTA_NOMBRE" id="721BC657-2867-9F8E-54EC-16D16D9AFF20">
+<createdBy>NextClick</createdBy>
+<createdTime>2023-04-13 22:51:46 UTC</createdTime>
+<ownerDesignName>diagrama_er</ownerDesignName>
+<engineerTo>
+<item key="E3FA50AD-68AD-FDCE-BD85-A3249704ECE4" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>30</dataTypeSize>
+<ownDataTypeParameters>30,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="F6C074D1-03A0-83A0-05CA-7EDDD96DE297" name="ESTACIONAMIENTO PK">
+<createdBy>NextClick</createdBy>
+<createdTime>2023-04-13 22:44:52 UTC</createdTime>
+<ownerDesignName>diagrama_er</ownerDesignName>
+<engineerTo>
+<item key="E3FA50AD-68AD-FDCE-BD85-A3249704ECE4" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>AFAEED0F-4680-B6C3-F5F7-C0CE3252EFCE</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>
