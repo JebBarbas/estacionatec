@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+}
+
+model Rol {
+  id              String    @id @default(uuid())
+  nombre          String
+  permisosPremium Boolean
+  permisosAdmin   Boolean
+  permisosGuardia Boolean
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  usuarios        Usuario[]
+}
+
+model Usuario {
+  id              String    @id @default(uuid())
+  email           String    @unique
+  control         String    @unique
+  password        String
+  nombre          String
+  apellidoPaterno String
+  apellidoMaterno String?
+  telefono        String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  rol             Rol       @relation(fields: [rolId], references: [id])
+  rolId           String
+
+  autorizaciones  Autorizacion[]
+  vehiculos       Vehiculo[]
+}
+
+model Vehiculo {
+  id              String    @id @default(uuid())
+  matricula       String    @unique @db.VarChar(7)
+  marca           String
+  modelo          String
+  agno            String    @db.VarChar(4)
+  color           String
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  propietario     Usuario   @relation(fields: [propietarioId], references: [id])
+  propietarioId   String
+
+  autorizaciones  Autorizacion[]
+}
+
+model Autorizacion {
+  id          String    @id @default(uuid())
+  activa      Boolean   
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  usuario     Usuario   @relation(fields: [usuarioId], references: [id])
+  usuarioId   String
+
+  vehiculo    Vehiculo  @relation(fields: [vehiculoId], references: [id])
+  vehiculoId  String
+
+  entradas    Entrada[]
+}
+
+model Estacionamiento {
+  id          String    @id @default(uuid())
+  slug        String    @unique
+  nombre      String
+  patron      String
+  imagen      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  cajones     Cajon[]
+}
+
+model Cajon {
+  id                String          @id @default(uuid())
+  etiqueta          String
+  disponible        Boolean
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  estacionamiento   Estacionamiento @relation(fields: [estacionamientoId], references: [id], onDelete: Cascade)
+  estacionamientoId String
+
+  entradas          Entrada[]
+}
+
+model Entrada {
+  id              String        @id @default(uuid())
+  fechaInicio     DateTime
+  fechaFin        DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  autorizacion    Autorizacion  @relation(fields: [autorizacionId], references: [id])
+  autorizacionId  String
+
+  cajon           Cajon         @relation(fields: [cajonId], references: [id])
+  cajonId         String
+}

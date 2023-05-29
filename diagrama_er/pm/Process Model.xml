@@ -1,7 +1,0 @@
-<?xml version = '1.0' encoding = 'UTF-8'?>
-<ProcessModel class="oracle.dbtools.crest.model.design.process.ProcessModel" name="Process Model" id="FF473324-701A-768B-658F-415465C088F6">
-<createdBy>NextClick</createdBy>
-<createdTime>2023-04-13 22:42:17 UTC</createdTime>
-<ownerDesignName>diagrama_er</ownerDesignName>
-<shouldBeOpen>false</shouldBeOpen>
-</ProcessModel>
