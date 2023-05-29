@@ -12,18 +12,33 @@ export default async function index(req: NextApiRequest, res: NextApiResponse){
                 const estacionamiento = await prisma.estacionamiento.findUnique({
                     where: {
                         slug
+                    },
+                    include: {
+                        cajones: {
+                            include: {
+                                entradas: {
+                                    include: {
+                                        autorizacion: {
+                                            include: {
+                                                usuario: true,
+                                                vehiculo: {
+                                                    include: {
+                                                        propietario: true
+                                                    }
+                                                }                                       
+                                            }
+                                        }
+                                    },
+                                    orderBy: {
+                                        fechaInicio: 'desc'
+                                    }
+                                }
+                            }
+                        }
                     }
                 })
 
-                if(!estacionamiento) return res.status(404).json([])
-
-                const cajones = await prisma.cajon.findMany({
-                    where: {
-                        estacionamientoId: estacionamiento.id
-                    }
-                })
-
-                return res.status(200).json(cajones)
+                return res.status(200).json(estacionamiento)
             }
             catch(err){
                 return res.status(500).json({message: err})

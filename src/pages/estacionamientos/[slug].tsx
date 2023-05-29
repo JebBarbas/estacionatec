@@ -1,65 +1,52 @@
-import { GetServerSideProps } from "next";
-import axios from 'axios'
-import { server } from "@/utils/config";
+import axios, { isAxiosError } from 'axios'
 import Layout, { Container } from "@/components/Layout";
 import CuadroCajones from "@/components/CuadroCajones";
-import type { Cajon, Estacionamiento } from "@prisma/client";
+import { useCallback, useEffect, useState } from "react";
+import { EstacionamientoCompleto } from "@/types";
+import { useRouter } from "next/router";
+import { Typography } from '@mui/material';
 
-interface CajonesProps {
-    estacionamiento: Estacionamiento
-    cajones: Cajon[]
-}
+export default function Cajones(){
+    const [estacionamiento, setEstacionamiento] = useState<EstacionamientoCompleto|null>(null)
+    const { query:{slug} } = useRouter()
 
-export default function Cajones({estacionamiento, cajones}:CajonesProps){
+    const cargarEstacionamiento = useCallback(async () => {
+        try {
+            const res = await axios.get<EstacionamientoCompleto|null>(`/api/cajones/estacionamiento/${slug}`)
+            setEstacionamiento(res.data)
+        }
+        catch(err) {
+            if(isAxiosError(err)){
+                console.log(err)
+            }
+        }
+    }, [slug])
+
+    useEffect(() => {
+        cargarEstacionamiento()
+    }, [cargarEstacionamiento])
+
     return (
         <Layout title="Lugares" description="Mira la disponibilidad de lugares de estacionamiento">
-            <Container>   
-                <CuadroCajones
-                    patron={estacionamiento.patron}
-                    cajones={cajones}
-                />
-                {/* {
-                    cajones.length > 0 ? <CuadroCajones cajones={cajones}/> : 
-                    (
-                        <>
-                            No hay cajones
-                        </>
+            <Container>
+                <Typography variant="h6">
+                    Espacios Disponibles
+                </Typography>
+
+                <Typography sx={{marginBottom: 2, textAlign: 'justify'}}>
+                    Visualiza los espacios disponibles en el estacionamiento de tu preferencia
+                    antes de llegar.
+                </Typography>
+                {
+                    estacionamiento && (
+                        <CuadroCajones
+                            patron={estacionamiento.patron}
+                            cajones={estacionamiento.cajones}
+                        />
                     )
-                } */}
+                }
             </Container>
         </Layout>
         
     )
-}
-
-export const getServerSideProps: GetServerSideProps<CajonesProps> = async ctx => {
-    try{
-        const {query:{slug}} = ctx
-
-        const estacionamiento = await axios.get<Estacionamiento>(
-            `${server}/api/estacionamientos/${slug}`
-        )
-
-        if(!estacionamiento) return {
-            notFound: true
-        }
-
-        const cajones = await axios.get<Cajon[]>(`${server}/api/cajones/estacionamiento/${slug}`)
-
-        return {
-            props: {
-                cajones: cajones.data,
-                estacionamiento: estacionamiento.data
-            }
-        }
-    }
-    catch(err){
-        if(axios.isAxiosError(err)){
-            console.log('error: ', err.message)
-        }
-
-        return { 
-            notFound: true
-        }
-    }
 }

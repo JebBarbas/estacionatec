@@ -1,16 +1,36 @@
-import { FC } from "react";
-import { Box, useTheme } from '@mui/material'
+import { FC, useState } from "react";
+import { Box, Tooltip, useTheme } from '@mui/material'
 import traducirPatron from "@/functions/traducirPatron";
-import type { Cajon } from "@prisma/client";
+import { CajonCompleto } from "@/types";
+import DialogoCajon from "./DialogoCajon";
 
 interface CuadroCajonesProps {
     loading?: boolean
-    cajones?: Cajon[]
+    cajones?: CajonCompleto[]
     patron: string
+    modoGuardia?: boolean
 }
 
 
-const CuadroCajones:FC<CuadroCajonesProps> = ({patron, cajones, loading}) => {
+const CuadroCajones:FC<CuadroCajonesProps> = ({patron, cajones, loading, modoGuardia}) => {
+    const [dialogOpen, setDialogOpen] = useState(false)
+    const [cajonAbierto, setCajonAbierto] = useState<CajonCompleto|null>(null)
+    
+    const abrirCajon = (etiqueta: string) => {
+        if(!cajones) return
+
+        const cajon = cajones.find(c => c.etiqueta === etiqueta)
+        if(!cajon) return 
+
+        setCajonAbierto(cajon)
+        setDialogOpen(true)
+    }
+
+    const handleClose = () => {
+        setCajonAbierto(null)
+        setDialogOpen(false)
+    }
+
     const etiquetas = traducirPatron(patron)
 
     const { palette:{mode, background:{default:back}} } = useTheme()
@@ -47,22 +67,48 @@ const CuadroCajones:FC<CuadroCajonesProps> = ({patron, cajones, loading}) => {
     }
 
     return (
-        <Box sx={{color: back, overflowX: 'auto', width: '100%', marginX: 'auto'}}>
+        <Box sx={{color: back, overflowX: 'auto'}}>
             {
                 etiquetas.map((filaEtiquetas, index) => (
                     <Box key={index} sx={{
                         display: 'flex',
+                        justifyContent: 'center',
                         height: '3rem'
                     }}>
                         {
-                            filaEtiquetas.map((etiqueta, index2) => (
+                            filaEtiquetas.map((etiqueta, index2) => 
+                            etiqueta !== '' && modoGuardia ? (
+                                <Tooltip 
+                                    key={index2} 
+                                    title={`Ver Información de ${etiqueta}`} 
+                                    placement="right"
+                                >
+                                    <Box 
+                                        sx={{
+                                            background: color(true, cajonDisponible(etiqueta)),
+                                            flex: '0 0 3rem',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            textAlign: 'center',
+                                            '&:hover': {
+                                                cursor: 'pointer',
+                                                transform: 'scale(1.2)'
+                                            }
+                                        }}
+                                        onClick={() => abrirCajon(etiqueta)}
+                                    >
+                                        {etiqueta}
+                                    </Box>
+                                </Tooltip>
+                            ) : (
                                 <Box key={index2} sx={{
                                     background: color(etiqueta !== '', cajonDisponible(etiqueta)),
                                     flex: '0 0 3rem',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
-                                    textAlign: 'center'
+                                    textAlign: 'center',
                                 }}>
                                     {etiqueta}
                                 </Box>
@@ -71,6 +117,8 @@ const CuadroCajones:FC<CuadroCajonesProps> = ({patron, cajones, loading}) => {
                     </Box>
                 ))
             }
+
+            <DialogoCajon handleClose={handleClose} open={dialogOpen} cajon={cajonAbierto}/>
         </Box>
     )
 }

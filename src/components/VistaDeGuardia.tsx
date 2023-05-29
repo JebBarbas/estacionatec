@@ -6,7 +6,7 @@ import CuadroCajones from "./CuadroCajones";
 import { LoadingButton } from "@mui/lab";
 import axios, { isAxiosError } from "axios";
 import { useForm } from 'react-hook-form'
-import { EntradaConCajon } from "@/types";
+import { CajonCompleto, EntradaConCajon, EstacionamientoCompleto } from "@/types";
 
 interface EntradaFormData {
     control: string
@@ -24,7 +24,7 @@ export default function VistaDeGuardia(){
     const [estacionamientoSeleccionado, setEstacionamientoSeleccionado] = useState<Estacionamiento|null>(null)
     const [loading, setLoading] = useState(false)
 
-    const [cajones, setCajones] = useState<Cajon[]>([]) 
+    const [cajones, setCajones] = useState<CajonCompleto[]>([]) 
 
     const { register, handleSubmit, formState:{errors}, reset} = useForm<EntradaFormData>()
     
@@ -39,9 +39,9 @@ export default function VistaDeGuardia(){
         try{
             setLoading(true)
 
-            const res = await axios.get<Cajon[]>(`/api/cajones/estacionamiento/${estacionamientoACargar.slug}`)
+            const res = await axios.get<EstacionamientoCompleto>(`/api/cajones/estacionamiento/${estacionamientoACargar.slug}`)
 
-            setCajones(res.data)
+            setCajones(res.data.cajones)
         }
         catch{
 
@@ -158,6 +158,7 @@ export default function VistaDeGuardia(){
                             {
                                 !!estacionamientoSeleccionado && (
                                     <CuadroCajones
+                                        modoGuardia
                                         loading={loading}
                                         cajones={cajones}
                                         patron={estacionamientoSeleccionado.patron}

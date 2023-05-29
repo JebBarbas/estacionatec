@@ -77,9 +77,9 @@ export default function Home(){
                             </>
                         }                        
 
-                        <Button variant='contained'>
+                        {/* <Button variant='contained'>
                             Generar QR de { usuarioDentro ? 'Salida' : 'Entrada'}
-                        </Button>
+                        </Button> */}
                     </CardContent>
                 </Card>
                 {
