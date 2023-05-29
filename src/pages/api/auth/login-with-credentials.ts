@@ -30,7 +30,7 @@ export default async function index(req: NextApiRequest, res: NextApiResponse){
                     }
                 })
 
-                if(!posibleUsuario) return res.status(401).json({message: 'Correo o contraseña incorrectos'})
+                if(!posibleUsuario) return res.status(404).json({message: 'No se encontró ningún usuario con ese correo o número de control'})
 
                 if(await compare(plainPassword, posibleUsuario.password)){
                     // expire in 30 days
@@ -51,7 +51,7 @@ export default async function index(req: NextApiRequest, res: NextApiResponse){
                     return res.status(200).json(posibleUsuario)
                 }
                 
-                return res.status(401).json({message: 'Correo o contraseña incorrectos'})
+                return res.status(404).json({message: 'Contraseña incorrecta'})
             }
             catch(err){
                 return res.status(500).json({message: err})

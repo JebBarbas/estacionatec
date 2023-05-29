@@ -4,6 +4,7 @@ import axios from "axios";
 import { Typography } from '@mui/material'
 import type { Estacionamiento } from "@prisma/client";
 import { useEffect, useState } from "react";
+import { handleAxiosError } from "@/utils/Snackbar";
 
 export default function Estacionamientos(){
     const [estacionamientos, setEstacionamientos] = useState<Estacionamiento[]>([])
@@ -13,8 +14,8 @@ export default function Estacionamientos(){
             const res = await axios.get<Estacionamiento[]>('/api/estacionamientos')
             setEstacionamientos(res.data)
         }
-        catch{
-
+        catch(err){
+            handleAxiosError(err)
         }
     }
 

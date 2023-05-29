@@ -2,6 +2,7 @@ import Layout, { Container } from "@/components/Layout";
 import ListaVehiculos from "@/components/ListaVehiculos";
 import { useAuth } from "@/providers/AuthProvider";
 import { AutorizacionConVehiculo } from "@/types";
+import { handleAxiosError } from "@/utils/Snackbar";
 import { Box, Button, Typography } from "@mui/material";
 import axios, { isAxiosError } from "axios";
 import { GetServerSideProps } from "next";
@@ -20,9 +21,7 @@ export default function Perfil(){
             setAutorizaciones(res.data)
         }
         catch(err){
-            if(isAxiosError(err)){
-                console.log(err)
-            }
+            handleAxiosError(err)
         }
     }, [currentUser])
 

@@ -3,7 +3,7 @@ import { AutorizacionConVehiculo } from "@/types";
 import groupArray from "@/utils/groupArray";
 import { faCarSide, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, ListSubheader, Typography, getLuminance } from "@mui/material";
+import { Avatar, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, ListSubheader, Typography, getLuminance } from "@mui/material";
 import type { Vehiculo } from "@prisma/client";
 import { useState } from "react";
 import DialogoVehiculo from "./DialogoVehiculo";

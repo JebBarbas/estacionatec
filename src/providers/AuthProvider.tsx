@@ -23,40 +23,25 @@ const AuthProvider:PC = ({children}) => {
     const [currentUser, setCurrentUser] = useState<UsuarioConRol|null>(null)
 
     const register = async (email: string, control: string, password: string, nombre: string, apellidoPaterno: string, apellidoMaterno: string, telefono: string) => {
-        try{
-            const res = await axios.post<UsuarioConRol>('/api/usuarios', {
-                email, control, password, nombre, apellidoPaterno, apellidoMaterno,
-                telefono
-            })
+        const res = await axios.post<UsuarioConRol>('/api/usuarios', {
+            email, control, password, nombre, apellidoPaterno, apellidoMaterno,
+            telefono
+        })
 
-            setCurrentUser(res.data)
-        }
-        catch{
-
-        }
+        setCurrentUser(res.data)
     }
 
     const login = async (identification: string, plainPassword: string) => {
-        try {
-            const res = await axios.post<UsuarioConRol|null>('/api/auth/login-with-credentials', {identification, plainPassword})
+        const res = await axios.post<UsuarioConRol|null>('/api/auth/login-with-credentials', {identification, plainPassword})
 
-            if(!res.data) return console.log('datos incorrectos chamaco')
+        if(!res.data) return
 
-            setCurrentUser(res.data)
-        }
-        catch {
-
-        }
+        setCurrentUser(res.data)
     }
 
     const logout = async () => {
-        try {
-            await axios.get('/api/auth/logout')
-            setCurrentUser(null)
-        }
-        catch{
-
-        }
+        await axios.get('/api/auth/logout')
+        setCurrentUser(null)
     }
 
     const value:IAuthContext = {

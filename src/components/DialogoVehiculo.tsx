@@ -4,9 +4,9 @@ import { MuiColorInput, matchIsValidColor } from "mui-color-input"
 import { useEffect, useState } from "react"
 import { useForm, Controller } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
-import axios, { isAxiosError } from "axios"
+import axios from "axios"
 import { useAuth } from "@/providers/AuthProvider"
-import { AutorizacionConVehiculo } from "@/types"
+import { handleAxiosError } from "@/utils/Snackbar"
 
 interface DialogoVehiculoProps {
     esNuevo: boolean
@@ -69,9 +69,9 @@ export default function DialogoVehiculo({esNuevo, vehiculo, open, handleClose, o
             handleClose()
         }
         catch(err){
-            if(isAxiosError(err)){
-                console.log(err)
-            }
+            handleAxiosError(err, {
+                P2002: 'Ya existe un vehículo con esta matrícula'
+            })
         }
 
         setLoading(false)
@@ -89,9 +89,7 @@ export default function DialogoVehiculo({esNuevo, vehiculo, open, handleClose, o
             handleClose()
         }
         catch(err){
-            if(isAxiosError(err)){
-                console.log(err)
-            }
+            handleAxiosError(err)
         }
 
         setLoading(false)

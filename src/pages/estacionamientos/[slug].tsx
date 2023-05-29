@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { EstacionamientoCompleto } from "@/types";
 import { useRouter } from "next/router";
 import { Typography } from '@mui/material';
+import { handleAxiosError } from '@/utils/Snackbar';
 
 export default function Cajones(){
     const [estacionamiento, setEstacionamiento] = useState<EstacionamientoCompleto|null>(null)
@@ -16,9 +17,7 @@ export default function Cajones(){
             setEstacionamiento(res.data)
         }
         catch(err) {
-            if(isAxiosError(err)){
-                console.log(err)
-            }
+            handleAxiosError(err)
         }
     }, [slug])
 

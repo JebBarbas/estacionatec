@@ -1,12 +1,13 @@
 import useGet from "@/hooks/useGet";
-import { Autocomplete, Grid, InputLabel, TextField, Typography } from "@mui/material";
-import type { Cajon, Estacionamiento } from "@prisma/client";
+import { Autocomplete, Grid, TextField, Typography } from "@mui/material";
+import type { Estacionamiento } from "@prisma/client";
 import { useState } from "react";
 import CuadroCajones from "./CuadroCajones";
 import { LoadingButton } from "@mui/lab";
 import axios, { isAxiosError } from "axios";
 import { useForm } from 'react-hook-form'
 import { CajonCompleto, EntradaConCajon, EstacionamientoCompleto } from "@/types";
+import { handleAxiosError, successSnackbar } from "@/utils/Snackbar";
 
 interface EntradaFormData {
     control: string
@@ -43,8 +44,8 @@ export default function VistaDeGuardia(){
 
             setCajones(res.data.cajones)
         }
-        catch{
-
+        catch(err){
+            handleAxiosError(err)
         }
         finally{
             setLoading(false)
@@ -63,11 +64,10 @@ export default function VistaDeGuardia(){
                 })
 
                 if(nuevaEntrada.data){
-                    console.log(nuevaEntrada.data)
-                    console.log('Tu lugar es:', nuevaEntrada.data.cajon.etiqueta)
+                    successSnackbar(`Lugar asignado: ${nuevaEntrada.data.cajon.etiqueta}`)
                 }
                 else{
-                    console.log('buen viaje')
+                    successSnackbar(`Buen viaje`)
                 }
 
                 await cargarCajones(estacionamientoSeleccionado)
@@ -75,9 +75,7 @@ export default function VistaDeGuardia(){
             }
         }
         catch(err){
-            if(isAxiosError(err)){
-                console.log(err.response?.data.message ?? '')
-            }
+            handleAxiosError(err)
         }
         finally{
             setLoading(false)

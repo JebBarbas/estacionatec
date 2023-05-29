@@ -1,5 +1,6 @@
 import SimpleContainer from "@/components/SimpleContainer";
 import { useAuth } from "@/providers/AuthProvider";
+import { handleAxiosError } from "@/utils/Snackbar";
 import { Card, CardContent, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -12,8 +13,8 @@ export default function Logout(){
         try{
             await logout()
         }
-        catch{
-
+        catch(err){
+            handleAxiosError(err)
         }
 
         push('/auth/login')

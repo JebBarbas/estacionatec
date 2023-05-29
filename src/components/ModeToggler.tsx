@@ -1,7 +1,7 @@
 import { IconButton } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { TernaryDarkMode, useCustomTheme } from '@/providers/CustomThemeProvider'
-import { faSun, faMoon, faQuestion, faGear } from '@fortawesome/free-solid-svg-icons'
+import { faSun, faMoon, faGear } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react'
 
 const getNextMode = (mode:TernaryDarkMode):TernaryDarkMode => {

@@ -3,15 +3,15 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import CuadroCajones from '@/components/CuadroCajones';
 import Layout, { Container } from '@/components/Layout';
-import { useCustomTheme } from '@/providers/CustomThemeProvider';
-import { Button, Card, CardActionArea, CardContent, CardMedia, TextField, Typography, useTheme } from '@mui/material'
+import { Card, CardContent, CardMedia, Typography, useTheme } from '@mui/material'
 import { useCallback, useEffect, useState } from 'react';
 import { useAuth } from '@/providers/AuthProvider';
 import axios from 'axios';
 import VistaDeGuardia from '@/components/VistaDeGuardia';
 import { EntradaCompleta } from '@/types';
+import { handleAxiosError } from '@/utils/Snackbar';
+import getFullCarIdentification from '@/utils/getFullCarIdentification';
 
 export default function Home(){
     const { currentUser } = useAuth()
@@ -26,8 +26,8 @@ export default function Home(){
             setUsuarioDentro(res.data[0])
             setEntradaActual(res.data[1])
         }
-        catch{
-
+        catch(err){
+            handleAxiosError(err)
         }
     }, [currentUser])
 
@@ -69,6 +69,9 @@ export default function Home(){
                                 </Typography>
                                 <Typography variant="h5" component="div" sx={{marginBottom:2}}>
                                     Lugar: {entradaActual.cajon.etiqueta}
+                                </Typography>
+                                <Typography variant="h5" component="div" sx={{marginBottom:2}}>
+                                    Vehículo: {getFullCarIdentification(entradaActual.autorizacion.vehiculo)}
                                 </Typography>
                             </> : <>
                                 <Typography variant="h5" component="div" sx={{marginBottom:2}}>

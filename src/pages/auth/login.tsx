@@ -1,5 +1,6 @@
 import SimpleContainer from "@/components/SimpleContainer"
 import { useAuth } from "@/providers/AuthProvider"
+import { handleAxiosError } from "@/utils/Snackbar"
 import { LoadingButton } from "@mui/lab"
 import { Box, Card, CardContent, Checkbox, FormControlLabel, TextField, Typography } from "@mui/material"
 import { useRouter } from "next/router"
@@ -25,8 +26,8 @@ export default function Login(){
             await login(data.identification, data.plainPassword)
             push('/')
         }
-        catch{
-
+        catch(err){
+            handleAxiosError(err)
         }
         finally{
             setLoading(false)
