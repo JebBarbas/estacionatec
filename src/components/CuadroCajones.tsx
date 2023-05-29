@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Box, useTheme } from '@mui/material'
 import traducirPatron from "@/functions/traducirPatron";
-import { Cajon } from "@prisma/client";
+import type { Cajon } from "@prisma/client";
 
 interface CuadroCajonesProps {
     loading?: boolean

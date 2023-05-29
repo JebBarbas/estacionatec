@@ -4,13 +4,13 @@ import groupArray from "@/utils/groupArray";
 import { faCarSide, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar, Button, List, ListItem, ListItemAvatar, ListItemButton, ListItemText, ListSubheader, Typography, getLuminance } from "@mui/material";
-import { Vehiculo } from "@prisma/client";
+import type { Vehiculo } from "@prisma/client";
 import { useState } from "react";
 import DialogoVehiculo from "./DialogoVehiculo";
 
 interface ListaVehiculosProps {
     autorizaciones: AutorizacionConVehiculo[]
-    onNewAutorizacion: (nueva: AutorizacionConVehiculo) => void
+    onNewAutorizacion: () => void
 }
 
 const getContrastColor = (color:string) => getLuminance(color) >= 0.5 ? '#222222' : '#eeeeee'

@@ -1,10 +1,8 @@
 import ListaEstacionamientos from "@/components/ListaEstacionamientos";
 import Layout, { Container } from "@/components/Layout";
-import { server } from "@/utils/config";
 import axios from "axios";
-import { GetServerSideProps } from "next";
 import { Typography } from '@mui/material'
-import { Estacionamiento } from "@prisma/client";
+import type { Estacionamiento } from "@prisma/client";
 import { useEffect, useState } from "react";
 
 export default function Estacionamientos(){

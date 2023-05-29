@@ -1,5 +1,4 @@
 import { PC, UsuarioConRol } from "@/types";
-import { Rol, Usuario } from "@prisma/client";
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 

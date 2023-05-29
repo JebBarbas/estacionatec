@@ -1,6 +1,6 @@
 import useGet from "@/hooks/useGet";
 import { Autocomplete, Grid, InputLabel, TextField, Typography } from "@mui/material";
-import { Cajon, Estacionamiento } from "@prisma/client";
+import type { Cajon, Estacionamiento } from "@prisma/client";
 import { useState } from "react";
 import CuadroCajones from "./CuadroCajones";
 import { LoadingButton } from "@mui/lab";

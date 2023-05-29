@@ -2,7 +2,7 @@ import { Card, CardContent, Typography, CardMedia, Box, CardActionArea, useTheme
 import { FC } from "react";
 import ExtensiveGrid from "./ExtensibleGrid";
 import { useRouter } from "next/router";
-import { Estacionamiento } from "@prisma/client";
+import type { Estacionamiento } from "@prisma/client";
 
 interface ListaEstacionamientosProps {
     estacionamientos: Estacionamiento[]

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { server } from "@/utils/config";
 import Layout, { Container } from "@/components/Layout";
 import CuadroCajones from "@/components/CuadroCajones";
-import { Cajon, Estacionamiento } from "@prisma/client";
+import type { Cajon, Estacionamiento } from "@prisma/client";
 
 interface CajonesProps {
     estacionamiento: Estacionamiento

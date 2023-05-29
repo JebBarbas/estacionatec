@@ -1,4 +1,4 @@
-import { Autorizacion, Cajon, Entrada, Estacionamiento, Rol, Usuario, Vehiculo } from "@prisma/client";
+import type { Autorizacion, Cajon, Entrada, Estacionamiento, Rol, Usuario, Vehiculo } from "@prisma/client";
 import { FC, ReactNode } from "react";
 
 export type PC<P = {}> = FC<{children: ReactNode} & P>

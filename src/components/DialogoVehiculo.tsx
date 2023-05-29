@@ -1,5 +1,5 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
-import { Vehiculo } from "@prisma/client"
+import type { Vehiculo } from "@prisma/client"
 import { MuiColorInput, matchIsValidColor } from "mui-color-input"
 import { useState } from "react"
 import { useForm, Controller } from 'react-hook-form'
