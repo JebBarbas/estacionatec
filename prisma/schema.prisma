@@ -68,7 +68,7 @@ model Autorizacion {
   usuario     Usuario   @relation(fields: [usuarioId], references: [id])
   usuarioId   String
 
-  vehiculo    Vehiculo  @relation(fields: [vehiculoId], references: [id])
+  vehiculo    Vehiculo  @relation(fields: [vehiculoId], references: [id], onDelete: Cascade)
   vehiculoId  String
 
   entradas    Entrada[]

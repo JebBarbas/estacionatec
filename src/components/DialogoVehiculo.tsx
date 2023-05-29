@@ -1,7 +1,7 @@
 import { Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material"
 import type { Vehiculo } from "@prisma/client"
 import { MuiColorInput, matchIsValidColor } from "mui-color-input"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm, Controller } from 'react-hook-form'
 import { LoadingButton } from '@mui/lab'
 import axios, { isAxiosError } from "axios"
@@ -30,7 +30,7 @@ export default function DialogoVehiculo({esNuevo, vehiculo, open, handleClose, o
     const { currentUser } = useAuth()    
     const [loading, setLoading] = useState(false)
 
-    const { register, handleSubmit, formState:{errors}, control, reset} = useForm<FormProps>({
+    const { register, handleSubmit, formState:{errors}, control, reset, setValue} = useForm<FormProps>({
         defaultValues: {
             matricula: vehiculo?.matricula,
             marca: vehiculo?.marca,
@@ -40,16 +40,33 @@ export default function DialogoVehiculo({esNuevo, vehiculo, open, handleClose, o
         }
     })
 
+    useEffect(() => {
+        if(vehiculo){
+            setValue('matricula', vehiculo.matricula)
+            setValue('marca', vehiculo.marca)
+            setValue('modelo', vehiculo.modelo)
+            setValue('agno', vehiculo.agno)
+            setValue('color', vehiculo.color)
+        }
+    }, [vehiculo, setValue])
+
     if(!currentUser) return null
 
     const onSubmit = handleSubmit(async data => {
         setLoading(true)
 
         try{
-            await axios.post<AutorizacionConVehiculo>('/api/vehiculos', {...data, usuarioId: currentUser.id})
+            if(esNuevo){
+                await axios.post('/api/vehiculos', {...data, usuarioId: currentUser.id})
+            }
+            else{
+                await axios.put(`/api/vehiculos/${vehiculo?.id}`, data)
+            }
+
             reset()
 
             onNewAutorizacion()
+            handleClose()
         }
         catch(err){
             if(isAxiosError(err)){
@@ -58,8 +75,27 @@ export default function DialogoVehiculo({esNuevo, vehiculo, open, handleClose, o
         }
 
         setLoading(false)
-        handleClose()
     })
+
+    const onDelete = async () => {
+        setLoading(true)
+
+        try{
+            await axios.delete(`/api/vehiculos/${vehiculo?.id}`)
+
+            reset()
+
+            onNewAutorizacion()
+            handleClose()
+        }
+        catch(err){
+            if(isAxiosError(err)){
+                console.log(err)
+            }
+        }
+
+        setLoading(false)
+    }
 
     return (
         <Dialog onClose={handleClose} open={open}>
@@ -121,12 +157,23 @@ export default function DialogoVehiculo({esNuevo, vehiculo, open, handleClose, o
                     />
                 </DialogContent>
                 <DialogActions>
+                    {
+                        !esNuevo && (
+                            <LoadingButton 
+                                color="error"
+                                loading={loading}
+                                onClick={onDelete}
+                            >
+                                Borrar
+                            </LoadingButton>
+                        )
+                    }
                     <LoadingButton 
-                        type="submit" 
+                        type="submit"
+                        variant="contained" 
                         loading={loading} 
-                        loadingIndicator="Creando..."
                     >
-                        Crear
+                        {esNuevo ? 'Crear' : 'Guardar'}
                     </LoadingButton>
                 </DialogActions>
             </form>

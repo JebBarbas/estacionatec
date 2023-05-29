@@ -68,7 +68,7 @@ export default function ListaVehiculos({autorizaciones, onNewAutorizacion}:Lista
                 </ListItemButton>
                 {
                     autorizacionesAgrupadas.propios?.length && autorizacionesAgrupadas.propios.map(({id, vehiculo}) => (
-                        <ListItemButton key={id}>
+                        <ListItemButton key={id} onClick={() => openDialog(vehiculo)}>
                             <ListItemAvatar>
                                 <Avatar sx={{background: getContrastColor(vehiculo.color)}}>
                                     <FontAwesomeIcon icon={faCarSide} color={vehiculo.color}/>

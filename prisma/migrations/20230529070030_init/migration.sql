@@ -115,7 +115,7 @@ ALTER TABLE "Vehiculo" ADD CONSTRAINT "Vehiculo_propietarioId_fkey" FOREIGN KEY 
 ALTER TABLE "Autorizacion" ADD CONSTRAINT "Autorizacion_usuarioId_fkey" FOREIGN KEY ("usuarioId") REFERENCES "Usuario"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Autorizacion" ADD CONSTRAINT "Autorizacion_vehiculoId_fkey" FOREIGN KEY ("vehiculoId") REFERENCES "Vehiculo"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Autorizacion" ADD CONSTRAINT "Autorizacion_vehiculoId_fkey" FOREIGN KEY ("vehiculoId") REFERENCES "Vehiculo"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Cajon" ADD CONSTRAINT "Cajon_estacionamientoId_fkey" FOREIGN KEY ("estacionamientoId") REFERENCES "Estacionamiento"("id") ON DELETE CASCADE ON UPDATE CASCADE;

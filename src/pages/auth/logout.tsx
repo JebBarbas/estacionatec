@@ -25,10 +25,10 @@ export default function Logout(){
 
     return (
         <SimpleContainer title="Cerrando Sesión" description="Cerrando sesión">
-            <Card>
+            <Card sx={{marginY:'auto'}}>
                 <CardContent>
                     <Typography component="div" variant="h5">
-                        Token inválido, se está cerrando su sesión...
+                        Cerrando Sesión
                     </Typography>
                 </CardContent>
             </Card>

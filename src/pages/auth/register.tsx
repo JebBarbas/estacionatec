@@ -50,7 +50,7 @@ export default function Register(){
 
     return (
         <SimpleContainer title="Crear Cuenta" description="Crea tu cuenta en EstacionaTEC">
-            <Card>
+            <Card sx={{marginY:'auto'}}>
                 <CardContent>
                     <Typography 
                         gutterBottom 
